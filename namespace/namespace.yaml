@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: devops-lab
+  labels:
+    project: kubernetes-lab
+    environment: lab
+    owner: daniel-viana
