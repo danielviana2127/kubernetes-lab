@@ -18,13 +18,11 @@ O objetivo é mostrar **boas práticas reais**, indo além de exemplos básicos,
 Este repositório contém um **laboratório prático de Kubernetes**, focado em expor uma aplicação **Nginx** via **Ingress Controller com TLS**, aplicando **boas práticas reais de produção**.
 
 O projeto foi construído para simular problemas e soluções comuns do dia a dia DevOps, indo além de tutoriais básicos.
->>>>>>> a2caec2 (Initial commit: Kubernetes lab with nginx ingress, TLS and best practices)
 
 ---
 
 ## 🧱 Arquitetura
 
-<<<<<<< HEAD
 ```
 Usuário
    ↓
@@ -57,7 +55,6 @@ Usuário → Ingress (HTTPS) → Service → Pods (Nginx)
 ## 📁 Estrutura do Repositório
 
 ```
-<<<<<<< HEAD
 kubernetes-lab/
 ├── namespace.yaml
 ├── nginx-configmap.yaml
@@ -83,12 +80,10 @@ kubernetes-lab/
 │   └── networkpolicy-nginx.yaml
 └── service
     └── nginx-service.yaml
->>>>>>> a2caec2 (Initial commit: Kubernetes lab with nginx ingress, TLS and best practices)
 ```
 
 ---
 
-<<<<<<< HEAD
 ## 📦 Recursos Kubernetes Utilizados
 
 * **Namespace** — Isolamento lógico do ambiente
@@ -111,12 +106,10 @@ kubernetes-lab/
 ---
 
 =======
->>>>>>> a2caec2 (Initial commit: Kubernetes lab with nginx ingress, TLS and best practices)
 ## 🚀 Como executar o laboratório
 
 ### 1️⃣ Pré-requisitos
 
-<<<<<<< HEAD
 * Kubernetes (Kind, Minikube, K3s ou cluster gerenciado)
 * kubectl configurado
 * Ingress Controller NGINX instalado
@@ -154,7 +147,6 @@ minikube tunnel
 
 ---
 
-<<<<<<< HEAD
 ### 3️⃣ Verificar os recursos
 
 ```bash
@@ -220,13 +212,11 @@ Adicionar a entrada:
 O IP pode ser obtido com:
 
 ```bash
->>>>>>> a2caec2 (Initial commit: Kubernetes lab with nginx ingress, TLS and best practices)
 kubectl get ingress -n devops-lab
 ```
 
 ---
 
-<<<<<<< HEAD
 ### 4️⃣ Testar a aplicação
 
 ```bash
@@ -256,12 +246,10 @@ Resposta esperada:
 
 ```
 OK
->>>>>>> a2caec2 (Initial commit: Kubernetes lab with nginx ingress, TLS and best practices)
 ```
 
 ---
 
-<<<<<<< HEAD
 ## ❤️ Health Check
 
 O NGINX expõe um endpoint de saúde utilizado pelas probes:
@@ -324,5 +312,3 @@ Este laboratório faz parte do meu **plano de estudos em DevOps**, com foco em K
 ---
 
 📌 **Autor:** Daniel Viana
-
-(Initial commit: Kubernetes lab with nginx ingress, TLS and best practices)
