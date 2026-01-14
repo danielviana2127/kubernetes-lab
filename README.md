@@ -47,7 +47,6 @@ Pods (NGINX)
 
 ```
 Usuário → Ingress (HTTPS) → Service → Pods (Nginx)
->>>>>>> a2caec2 (Initial commit: Kubernetes lab with nginx ingress, TLS and best practices)
 ```
 
 ---
@@ -142,7 +141,6 @@ Em outro terminal (obrigatório para LoadBalancer):
 
 ```bash
 minikube tunnel
->>>>>>> a2caec2 (Initial commit: Kubernetes lab with nginx ingress, TLS and best practices)
 ```
 
 ---
