@@ -12,11 +12,19 @@ O objetivo é mostrar **boas práticas reais**, indo além de exemplos básicos,
 * Entender a arquitetura **Ingress → Service → Pod**
 * Aplicar boas práticas de **segurança**, **observabilidade** e **disponibilidade**
 * Simular um cenário próximo de produção
+=======
+# Kubernetes Lab — Nginx com Ingress, TLS e Boas Práticas
+
+Este repositório contém um **laboratório prático de Kubernetes**, focado em expor uma aplicação **Nginx** via **Ingress Controller com TLS**, aplicando **boas práticas reais de produção**.
+
+O projeto foi construído para simular problemas e soluções comuns do dia a dia DevOps, indo além de tutoriais básicos.
+>>>>>>> a2caec2 (Initial commit: Kubernetes lab with nginx ingress, TLS and best practices)
 
 ---
 
 ## 🧱 Arquitetura
 
+<<<<<<< HEAD
 ```
 Usuário
    ↓
@@ -25,6 +33,23 @@ Ingress (nginx)
 Service (ClusterIP)
    ↓
 Pods (NGINX)
+=======
+**Componentes utilizados:**
+
+* Kubernetes (Minikube)
+* Nginx
+* Ingress Controller (ingress-nginx)
+* TLS (certificado self-signed)
+* ConfigMap
+* Healthcheck `/health`
+* HPA (Horizontal Pod Autoscaler)
+* NetworkPolicy
+
+**Fluxo de tráfego:**
+
+```
+Usuário → Ingress (HTTPS) → Service → Pods (Nginx)
+>>>>>>> a2caec2 (Initial commit: Kubernetes lab with nginx ingress, TLS and best practices)
 ```
 
 ---
@@ -32,6 +57,7 @@ Pods (NGINX)
 ## 📁 Estrutura do Repositório
 
 ```
+<<<<<<< HEAD
 kubernetes-lab/
 ├── namespace.yaml
 ├── nginx-configmap.yaml
@@ -39,10 +65,30 @@ kubernetes-lab/
 ├── nginx-service.yaml
 ├── nginx-ingress.yaml
 └── README.md
+=======
+.
+├── configmap
+│   └── nginx-configmap.yaml
+├── deployment
+│   └── nginx-deployment.yaml
+├── hpa
+│   └── nginx-hpa.yaml
+├── ingress
+│   └── nginx-ingress.yaml
+├── namespace
+│   └── namespace.yaml
+├── secret
+│   └── nginx-tls-secret.yaml
+├── security
+│   └── networkpolicy-nginx.yaml
+└── service
+    └── nginx-service.yaml
+>>>>>>> a2caec2 (Initial commit: Kubernetes lab with nginx ingress, TLS and best practices)
 ```
 
 ---
 
+<<<<<<< HEAD
 ## 📦 Recursos Kubernetes Utilizados
 
 * **Namespace** — Isolamento lógico do ambiente
@@ -64,10 +110,13 @@ kubernetes-lab/
 
 ---
 
+=======
+>>>>>>> a2caec2 (Initial commit: Kubernetes lab with nginx ingress, TLS and best practices)
 ## 🚀 Como executar o laboratório
 
 ### 1️⃣ Pré-requisitos
 
+<<<<<<< HEAD
 * Kubernetes (Kind, Minikube, K3s ou cluster gerenciado)
 * kubectl configurado
 * Ingress Controller NGINX instalado
@@ -82,19 +131,102 @@ kubectl apply -f nginx-configmap.yaml
 kubectl apply -f nginx-deployment.yaml
 kubectl apply -f nginx-service.yaml
 kubectl apply -f nginx-ingress.yaml
+=======
+* Docker
+* Minikube
+* kubectl
+
+---
+
+### 2️⃣ Iniciar o cluster
+
+```bash
+minikube start
+minikube addons enable ingress
+```
+
+Em outro terminal (obrigatório para LoadBalancer):
+
+```bash
+minikube tunnel
+>>>>>>> a2caec2 (Initial commit: Kubernetes lab with nginx ingress, TLS and best practices)
 ```
 
 ---
 
+<<<<<<< HEAD
 ### 3️⃣ Verificar os recursos
 
 ```bash
 kubectl get all -n devops-lab
+=======
+### 3️⃣ Criar o namespace
+
+```bash
+kubectl apply -f namespace/namespace.yaml
+```
+
+---
+
+### 4️⃣ Criar o Secret TLS
+
+O secret é criado a partir de um certificado local (self-signed).
+
+```bash
+kubectl apply -f secret/nginx-tls-secret.yaml
+```
+
+---
+
+### 5️⃣ Aplicar ConfigMap e Deployment
+
+```bash
+kubectl apply -f configmap/nginx-configmap.yaml
+kubectl apply -f deployment/nginx-deployment.yaml
+```
+
+Verificar rollout:
+
+```bash
+kubectl rollout status deployment nginx-deployment -n devops-lab
+```
+
+---
+
+### 6️⃣ Criar o Service
+
+```bash
+kubectl apply -f service/nginx-service.yaml
+```
+
+---
+
+### 7️⃣ Criar o Ingress
+
+```bash
+kubectl apply -f ingress/nginx-ingress.yaml
+```
+
+---
+
+### 8️⃣ Ajustar o arquivo `/etc/hosts`
+
+Adicionar a entrada:
+
+```
+<IP_DO_MINIKUBE> nginx.devops.lab
+```
+
+O IP pode ser obtido com:
+
+```bash
+>>>>>>> a2caec2 (Initial commit: Kubernetes lab with nginx ingress, TLS and best practices)
 kubectl get ingress -n devops-lab
 ```
 
 ---
 
+<<<<<<< HEAD
 ### 4️⃣ Testar a aplicação
 
 ```bash
@@ -105,10 +237,31 @@ Ou pelo navegador:
 
 ```
 http://<INGRESS_IP>/nginx
+=======
+## 🔍 Testes
+
+### Página principal
+
+```bash
+curl -k https://nginx.devops.lab/
+```
+
+### Healthcheck
+
+```bash
+curl -k https://nginx.devops.lab/health
+```
+
+Resposta esperada:
+
+```
+OK
+>>>>>>> a2caec2 (Initial commit: Kubernetes lab with nginx ingress, TLS and best practices)
 ```
 
 ---
 
+<<<<<<< HEAD
 ## ❤️ Health Check
 
 O NGINX expõe um endpoint de saúde utilizado pelas probes:
@@ -140,3 +293,36 @@ Esse endpoint é usado para:
 DevOps | Docker | Kubernetes | Cloud | CI/CD
 
 🔗 GitHub: [https://github.com/danielviana2127](https://github.com/danielviana2127)
+=======
+## 🧠 Boas práticas aplicadas
+
+* ❌ Não sobrescrever `/etc/nginx/nginx.conf`
+* ✅ Uso correto de `/etc/nginx/conf.d/default.conf`
+* ✅ ConfigMap montando arquivo específico
+* ✅ Healthcheck alinhado com liveness/readiness probes
+* ✅ TLS configurado no Ingress
+* ✅ Namespace isolado
+* ✅ NetworkPolicy aplicada
+* ✅ HPA configurado
+* ✅ Requests e limits definidos
+
+---
+
+## 📈 Próximos passos (roadmap)
+
+* [ ] Cert-manager
+* [ ] Monitoramento com Prometheus
+* [ ] Logs centralizados
+* [ ] GitOps com ArgoCD
+
+---
+
+## 💼 Objetivo do Projeto
+
+Este laboratório faz parte do meu **plano de estudos em DevOps**, com foco em Kubernetes, troubleshooting e boas práticas utilizadas em ambientes reais de produção.
+
+---
+
+📌 **Autor:** Daniel Viana
+
+(Initial commit: Kubernetes lab with nginx ingress, TLS and best practices)

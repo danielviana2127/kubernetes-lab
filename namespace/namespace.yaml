@@ -4,5 +4,3 @@ metadata:
   name: devops-lab
   labels:
     project: kubernetes-lab
-    environment: lab
-    owner: daniel-viana
