@@ -1,156 +1,160 @@
-# Kubernetes Lab — NGINX com Ingress, TLS e Boas Práticas
+# Kubernetes Lab — Deploy de Aplicação em Kubernetes
 
-Este repositório é um **laboratório prático de Kubernetes** com foco em boas práticas de organização, segurança e observabilidade. O projeto implementa uma aplicação **NGINX** exposta via **Ingress Controller**, com **TLS**, **HPA**, **ConfigMap**, **NetworkPolicy** e separação clara de manifests.
+Este repositório contém um laboratório prático de Kubernetes que demonstra o deploy de uma aplicação containerizada utilizando manifests YAML.
 
-> Objetivo: demonstrar domínio dos fundamentos de Kubernetes em um cenário realista, organizado e reproduzível.
-
----
-
-## 🧱 Tecnologias Utilizadas
-
-* Kubernetes (testado com **Minikube**)
-* NGINX
-* NGINX Ingress Controller
-* TLS (Secret)
-* HPA (Horizontal Pod Autoscaler)
-* NetworkPolicy
+O projeto simula um fluxo básico de deploy em Kubernetes, cobrindo desde a criação dos recursos até a validação da aplicação em execução, como esperado no dia a dia de um **DevOps Júnior**.
 
 ---
 
-## 📁 Estrutura do Projeto
+## 🎯 Objetivo do Projeto
 
-```text
-kubernetes-lab/
-├── namespace/
-│   └── namespace.yaml
-├── configmap/
-│   └── nginx-configmap.yaml
-├── deployment/
-│   └── nginx-deployment.yaml
-├── service/
-│   └── nginx-service.yaml
-├── ingress/
-│   └── nginx-ingress.yaml
-├── hpa/
-│   └── nginx-hpa.yaml
-├── secret/
-│   └── nginx-tls-secret.yaml
-├── security/
-│   └── networkpolicy-nginx.yaml
-└── README.md
-```
+Demonstrar, de forma prática, os principais conceitos iniciais de Kubernetes, incluindo:
 
-### 📌 Organização
+* Deploy de aplicações em Kubernetes
+* Uso de manifests YAML
+* Gerenciamento de Pods com Deployment
+* Exposição de aplicações com Service
+* Uso de ConfigMap para configuração
+* Operação básica de um cluster Kubernetes local
 
-* Cada diretório representa **uma responsabilidade do Kubernetes**
-* Facilita manutenção, leitura e versionamento
-* Estrutura comum em ambientes profissionais
+---
+
+## 🧰 Tecnologias Utilizadas
+
+* Kubernetes
+* kubectl
+* Docker
+* YAML
+* Minikube
+
+---
+
+## 🏗️ Arquitetura da Aplicação
+
+A aplicação é composta por:
+
+* Aplicação Web containerizada
+* Deployment para gerenciamento dos Pods
+* Service para exposição da aplicação
+* ConfigMap para configuração
+
+Fluxo simplificado:
+
+Usuário → Service → Pod (Aplicação)
 
 ---
 
 ## 🚀 Como Executar o Projeto
 
-### 1️⃣ Criar o namespace
+### Pré-requisitos
+
+* Docker
+* kubectl
+* Minikube
+
+---
+
+### Subir o Cluster Kubernetes
 
 ```bash
-kubectl apply -f namespace/namespace.yaml
+minikube start
 ```
 
-### 2️⃣ Criar o ConfigMap do NGINX
+Verifique se o cluster está ativo:
 
 ```bash
-kubectl apply -f configmap/nginx-configmap.yaml
-```
-
-### 3️⃣ Criar o Secret TLS
-
-```bash
-kubectl apply -f secret/nginx-tls-secret.yaml
-```
-
-### 4️⃣ Subir o Deployment e o Service
-
-```bash
-kubectl apply -f deployment/nginx-deployment.yaml
-kubectl apply -f service/nginx-service.yaml
-```
-
-### 5️⃣ Criar o Ingress
-
-```bash
-kubectl apply -f ingress/nginx-ingress.yaml
-```
-
-### 6️⃣ Aplicar HPA (opcional)
-
-```bash
-kubectl apply -f hpa/nginx-hpa.yaml
-```
-
-### 7️⃣ Aplicar NetworkPolicy (opcional)
-
-```bash
-kubectl apply -f security/networkpolicy-nginx.yaml
+kubectl get nodes
 ```
 
 ---
 
-## 🌐 Acesso à Aplicação
+### Clonar o Repositório
 
-Após subir o Ingress Controller e configurar o `/etc/hosts`:
-
-```text
-<IP_DO_CLUSTER> nginx.devops.lab
+```bash
+git clone https://github.com/danielviana2127/kubernetes-lab.git
+cd kubernetes-lab
 ```
 
-Acesse:
+---
 
-* HTTPS: `https://nginx.devops.lab/`
-* Healthcheck: `https://nginx.devops.lab/health`
+### Aplicar os Manifests Kubernetes
 
-> Em ambiente local, pode ser necessário usar `minikube tunnel`.
+```bash
+kubectl apply -f k8s/
+```
 
 ---
 
-## 🔐 Segurança
+### 🔹 Verificar os Recursos Criados
 
-* Comunicação HTTPS via TLS
-* NetworkPolicy restringindo acesso aos pods
-* Recursos limitados por requests/limits
+Verifique se os Pods estão rodando:
 
----
+```bash
+kubectl get pods
+```
 
-## 📈 Escalabilidade
+Verifique o Service:
 
-* HPA configurado com base em CPU
-* Permite escalar automaticamente os pods NGINX
+```bash
+kubectl get svc
+```
 
----
-
-## 📚 Aprendizados Demonstrados
-
-* Organização profissional de manifests Kubernetes
-* Uso correto de ConfigMap sem sobrescrever `nginx.conf`
-* Exposição segura via Ingress + TLS
-* Troubleshooting de rollout e permissões
-* Git workflow com rebase e resolução de conflitos
+Os Pods devem estar com status **Running**.
 
 ---
 
-## 📌 Próximos Passos
+### 🔹 Acessar a Aplicação
 
-* Adicionar métricas com Prometheus
-* Integrar com Grafana
-* Criar pipeline CI/CD
+#### Opção 1 — Port Forward (mais simples)
+
+```bash
+kubectl port-forward svc/nome-do-service 8080:80
+```
+
+Acesse no navegador:
+
+```
+http://localhost:8080
+```
+
+#### Opção 2 — Minikube Service
+
+```bash
+minikube service nome-do-service
+```
+
+O Minikube abrirá automaticamente a aplicação no navegador.
+
+---
+
+## 🔄 Operações Básicas com kubectl
+
+Durante o uso do Kubernetes, os comandos abaixo são comuns para inspeção e troubleshooting:
+
+```bash
+kubectl describe pod <nome-do-pod>
+kubectl logs <nome-do-pod>
+```
+
+Para remover todos os recursos criados pelo laboratório:
+
+```bash
+kubectl delete -f k8s/
+```
+
+---
+
+## 📚 Aprendizados
+
+* Deploy e operação básica de aplicações em Kubernetes
+* Escrita e aplicação de manifests YAML
+* Gerenciamento de Pods e Services
+* Validação de aplicações em execução
+* Troubleshooting básico com kubectl
 
 ---
 
 ## 👤 Autor
 
-**Daniel Viana**
-Estudante de DevOps | Kubernetes | Docker | Cloud
-
----
-
-⭐ Se este projeto te ajudou ou serviu como referência, deixe uma estrela!
-
+Daniel Viana
+🔗 LinkedIn: [https://www.linkedin.com/in/daniel-viana-a9556669/](https://www.linkedin.com/in/daniel-viana-a9556669/)
